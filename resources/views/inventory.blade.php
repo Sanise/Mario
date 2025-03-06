@@ -14,13 +14,12 @@
             @foreach ($inventory as $stock)
                 <div class="bg-white border border-gray-200 rounded-lg shadow-md p-6 flex flex-col justify-between hover:shadow-lg transition-shadow duration-300">
                     <h2 class="text-2xl font-bold mb-2 text-gray-800">
-                        {{ $stock['film_title'] ?? 'Titre inconnu' }}
+                        {{ $stock['title'] ?? 'Titre inconnu' }}
                     </h2>
                     
-                    <p><strong>Stock ID :</strong> {{ $stock['inventory_id'] }}</p>
-                    <p><strong>Film ID :</strong> {{ $stock['film_id'] }}</p>
-                    <p><strong>Magasin ID :</strong> {{ $stock['store_id'] }}</p>
-                    <p><strong>Dernière mise à jour :</strong> {{ $stock['last_update'] }}</p>
+                    <p><strong>Film :</strong> {{ $stock['filmId'] ?? 'Indispo' }}</p>
+                    <p><strong>Store:</strong> {{ $stock['storeId'] ?? 'Indispo' }}</p>
+               <!--     <p><strong>Stock dispo:</strong> {{ $stock['quantity'] ?? '0' }}</p>-->
                 </div>
             @endforeach
         </div>
@@ -31,3 +30,4 @@
         </div>
     </div>
 </x-app-layout>
+

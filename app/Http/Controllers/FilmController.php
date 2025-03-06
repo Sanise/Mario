@@ -60,7 +60,7 @@ class FilmController extends Controller
             ->withErrors(['message' => 'Impossible de récupérer le film.']);
     }
 
-    public function edit($filmId): View|RedirectResponse
+    public function edit($filmId): View|RedirectResponse //récupére un film depuis l’API et afficher un formulaire d’édition.
     {
         $response = Http::get("http://localhost:8080/toad/film/getById", [
             'id' => $filmId
@@ -88,7 +88,7 @@ class FilmController extends Controller
 
         return back()->withErrors(['message' => 'Impossible de supprimer le film.']);
     }
-    public function update(Request $request, $filmId): RedirectResponse
+    public function update(Request $request, $filmId): RedirectResponse //Enregistre les modifications dans la bdd
 {
     $validatedData = $request->validate([
         'title' => 'required|string|max:255',
