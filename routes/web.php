@@ -6,7 +6,12 @@ use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\RentalController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\LoginController;
 
+//Route::get('/', function () {
+  //  return view('login_staff');
+//});
+//Route::post('/login_staff', [LoginController::class, 'login'])->name('login_staff');
 
 Route::get('/', function () {
     return view('welcome');

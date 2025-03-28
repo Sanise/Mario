@@ -4,9 +4,9 @@
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-bold">Gestion des Stocks de DVD</h1>
             <a href="{{ route('inventory') }}" 
-               class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
-                + Ajouter un film
-            </a>
+               class="bg-green-500 text-black px-4 py-2 rounded hover:bg-green-600 transition">
+                + Ajouter un DVD
+            </a> 
         </div>
 
         <!-- Grille des stocks -->
@@ -17,9 +17,9 @@
                         {{ $stock['title'] ?? 'Titre inconnu' }}
                     </h2>
                     
-                    <p><strong>Film :</strong> {{ $stock['filmId'] ?? 'Indispo' }}</p>
+                    <p><strong>Stock DVD :</strong> {{ $stock['inventory_id'] ?? 'Indispo' }}</p> <!-- Il y a normalement 8 dvd dispo pour le film 1, 3 dvd pour le fiml 2)-->
                     <p><strong>Store:</strong> {{ $stock['storeId'] ?? 'Indispo' }}</p>
-               <!--     <p><strong>Stock dispo:</strong> {{ $stock['quantity'] ?? '0' }}</p>-->
+                    <p><strong>Stock dispo:</strong> {{ $stock['quantity'] ?? '0' }}</p>
                 </div>
             @endforeach
         </div>

@@ -21,18 +21,45 @@
             </div>
 
             <div class="mb-4">
-                <label for="release_year" class="block font-bold">Année de sortie :</label>
-                <input type="number" name="release_year" id="release_year" 
-                       value="{{ $film['release_year'] ?? '' }}" 
-                       class="w-full border rounded p-2">
-            </div> 
+                <label for="rentalRate" class="block">Taux de location</label>
+                <input type="number" name="rentalRate" id="rentalRate" value="{{ old('rentalRate', $film['rentalRate']) }}" class="border p-2 w-full" required>
+            </div>
 
             <div class="mb-4">
-                <label for="rental_duration" class="block font-bold">Durée de location (jours) :</label>
-                <input type="number" name="rental_duration" id="rental_duration" 
-                       value="{{ $film['rental_duration'] ?? '' }}" 
-                       class="w-full border rounded p-2">
+                <label for="length" class="block">Longueur</label>
+                <input type="number" name="length" id="length" value="{{ old('length', $film['length']) }}" class="border p-2 w-full" required>
             </div>
+
+            <div class="mb-4">
+                <label for="replacementCost" class="block">Coût de remplacement</label>
+                <input type="number" name="replacementCost" id="replacementCost" value="{{ old('replacementCost', $film['replacementCost']) }}" class="border p-2 w-full" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="rating" class="block">Note</label>
+                <select name="rating" id="rating" class="border p-2 w-full">
+                    <option value="G" {{ old('rating', $film['rating']) == 'G' ? 'selected' : '' }}>G</option>
+                    <option value="PG" {{ old('rating', $film['rating']) == 'PG' ? 'selected' : '' }}>PG</option>
+                    <option value="PG-13" {{ old('rating', $film['rating']) == 'PG-13' ? 'selected' : '' }}>PG-13</option>
+                    <option value="R" {{ old('rating', $film['rating']) == 'R' ? 'selected' : '' }}>R</option>
+                    <option value="NC-17" {{ old('rating', $film['rating']) == 'NC-17' ? 'selected' : '' }}>NC-17</option>
+                </select>
+            </div>
+ 
+
+            <label for="releaseYear" class="block font-bold">Année de sortie :</label>
+            <input type="number" name="releaseYear" id="releaseYear"
+              value="{{ old('releaseYear', $film['releaseYear'] ?? 2000) }}" 
+              class="w-full border rounded p-2" required>
+
+              <label for="rentalDuration" class="block font-bold">Durée de location (jours) :</label>
+              <input type="number" name="rentalDuration" id="rentalDuration" 
+              value="{{ old('rentalDuration', $film['rentalDuration'] ?? 5) }}" 
+              class="w-full border rounded p-2" required>
+
+              <input type="hidden" name="languageId" value="{{ old('languageId', $film['languageId']) }}">
+              <input type="hidden" name="originalLanguageId" value="{{ old('originalLanguageId', $film['originalLanguageId']) }}">
+              <input type="hidden" name="lastUpdate" id="lastUpdate" value="{{ now()->format('Y-m-d H:i:s') }}">
 
             <button type="submit" class="bg-green-500 text-black px-4 py-2 rounded hover:bg-green-600">
                 Mettre à jour
