@@ -9,34 +9,33 @@ class Rental extends Model
 {
     use HasFactory;
 
-    // Nom de la table
-    protected $table = 'rental';
+    protected $table = 'rental';   // Nom de la table dans la bdd
 
     // Clé primaire
     protected $primaryKey = 'rental_id';
 
     // Champs modifiables
     protected $fillable = [
-        'rental_date',
-        'inventory_id',
-        'customer_id',
-        'return_date',
-        'staff_id',
-        'last_update',
+        'rental_date', //date de location
+        'inventory_id', //ID de l'article loué (référence à la table inventory)
+        'customer_id',//ID du client qui loue le film
+        'return_date',//Date de retour prévue ou effective
+        'staff_id',//ID de l'employé ayant enregistré la location
+        'last_update',//Date de dernière mise à jours
     ];
 
     // Désactiver les timestamps automatiques
     public $timestamps = false;
 
-    // Relation avec l'inventaire
-    public function inventory()
+    // Relation avec l'inventaire (inventory)
+    public function inventory() 
     {
-        return $this->belongsTo(Inventory::class, 'inventory_id', 'inventory_id');
+        return $this->belongsTo(Inventory::class, 'inventory_id', 'inventory_id'); //chaque location appartient à un élément d'invetaire
     }
 
-    // Relation avec le client
+    // Relation avec le client (customer)
     public function customer()
     {
-        return $this->belongsTo(Customer::class, 'customer_id', 'customer_id');
+        return $this->belongsTo(Customer::class, 'customer_id', 'customer_id'); //chaque location est faite par un client
     }
 }

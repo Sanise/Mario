@@ -8,24 +8,28 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\LoginController;
 
-//Route::get('/', function () {
-  //  return view('login_staff');
-//});
-//Route::post('/login_staff', [LoginController::class, 'login'])->name('login_staff');
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('login_staff');
 });
+Route::post('/login_staff', [LoginController::class, 'login'])->name('login_staff');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+/*Route::get('/', function () {
+    return view('welcome');
+});*/
+
+//Route::get('/dashboard', function () {
+  //  return view('dashboard');
+//})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/stores', [StoreController::class, 'index'])->name('stores.store');
 
 Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory');
-Route::get('/films/create', [FilmController::class, 'create'])->name('film.create');
+Route::get('/inventory/create', [InventoryController::class, 'create'])->name('inventory-create');
+Route::get('/film/create', [FilmController::class, 'create'])->name('film.create');
 Route::post('/films', [FilmController::class, 'store'])->name('film.store');
+Route::post('/inventory/store-multiple', [InventoryController::class, 'storeMultiple'])->name('inventory.storeMultiple');
+
 
 
 Route::get('/films', [FilmController::class, 'index'])->name('films');
@@ -41,10 +45,10 @@ Route::get('/rentals', [RentalController::class, 'index'])->name('rentals.index'
 
 Route::get('/search-customers', [RentalController::class, 'searchCustomers'])->name('customers.search');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+//Route::middleware('auth')->group(function () {
+  //  Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+   // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    //Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+//});
 
-require __DIR__.'/auth.php';
+//require __DIR__.'/auth.php';

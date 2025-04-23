@@ -15,16 +15,23 @@ class FilmController extends Controller
 
     public function index(Request $request): View|RedirectResponse
     {
+        //récupération des variables d'environnement pour l'url de l'API 
         $envUrl = env('ENV_URL');
         $envPort = env('ENV_PORT');
-        $endpointAllFilm ='/toad/film/all';
-        $data = $request->all();
+        $endpointAllFilm ='/toad/film/all'; //endpoint pour récuperer tout les films 
+        $data = $request->all(); //récupère tous les paramètre de la requête GET (ex: ?page=,2)
+
+        //requête HTTP GET vers l'API
         $response = Http::asForm()->get($envUrl.$envPort.$endpointAllFilm,$data);
 
         if ($response->successful()) {
-            $data = $response->json();
-            $currentPage = request()->get('page', 1);
-            $perPage = 10;
+
+        //récupération des données en JSON
+            $data = $response->json(); //donnée reçu sous forme de tableau associatif 
+
+            //Mise en place de la pagination 
+            $currentPage = request()->get('page', 1); //page actuelle
+            $perPage = 10;  //nbr de film par page
             $films = collect($data)->forPage($currentPage, $perPage);
             $paginatedFilms = new \Illuminate\Pagination\LengthAwarePaginator(
                 $films,
@@ -33,15 +40,17 @@ class FilmController extends Controller
                 $currentPage,
                 ['path' => request()->url(), 'query' => request()->query()]
             );
-            return view('films.film', ['films' => $paginatedFilms]);
+            return view('films.film', ['films' => $paginatedFilms]); //affiche la vue avec les films pasginés
         } else {
             return redirect('/')->withErrors(['message' => 'Impossible de récupérer les films.']);
         }
     }
 
+
+    // Affiche les détails d'un film spécifique 
     public function details(Request $request): View|RedirectResponse
 {
-    $filmId = $request->get('filmId');
+    $filmId = $request->get('filmId'); //récupère l'id du film depuis l'url ou formulaire
 
     if (!$filmId) {
         return redirect()->route('films')
@@ -52,12 +61,14 @@ class FilmController extends Controller
     $envPort = env('ENV_PORT');
     $endpoint = '/toad/film/getById';
     $data = $request->all();
+
+    //Appelle de l'API pour obtenir les infos du film
     $response = Http::get($envUrl . $envPort . $endpoint, ['id' => $filmId, $data]);
    
 
     if ($response->successful()) {
-        $film = $response->json();
-        return view('films.details', ['film' => $film]);
+        $film = $response->json(); //récupère les infos d'un seul film 
+        return view('films.details', ['film' => $film]); 
     }
 
     return redirect()->route('films')
@@ -65,6 +76,7 @@ class FilmController extends Controller
 }
 
 
+//Affiche le formulaire d'édition d'un film
 public function edit(string $filmId, Request $request): View|RedirectResponse
 {
     $envUrl = env('ENV_URL');
@@ -76,13 +88,14 @@ public function edit(string $filmId, Request $request): View|RedirectResponse
 
     if ($response->successful()) {
         $film = $response->json();
-        return view('films.edit', ['film' => $film]);
+        return view('films.edit', ['film' => $film]); //Affiche le formulaire de modification 
     }
 
     return redirect()->route('films')
         ->withErrors(['message' => 'Impossible de récupérer le film.']);
 }
 
+//Supprime un film
 public function destroy(string $filmId, Request $request): RedirectResponse
 {
     $envUrl = env('ENV_URL');
@@ -99,14 +112,15 @@ public function destroy(string $filmId, Request $request): RedirectResponse
 }
 
 
+//Met à jour les données d'un film existant via l'API 
 public function update(Request $request, $filmId)
 {
    $envUrl = env('ENV_URL');
    $envPort = env('ENV_PORT');
    $endpointUpdateFilm ='/toad/film/update/';
-   $lastUpdate = Carbon::now()->format('Y-m-d H:i:s');
+   $lastUpdate = Carbon::now()->format('Y-m-d H:i:s'); //date actuelle
    $data = $request->all();
-   $data['LastUpdate'] = $lastUpdate;
+   $data['LastUpdate'] = $lastUpdate; //ajout de la date mise à jour
    $response = Http::asForm()->put($envUrl.$envPort.$endpointUpdateFilm.$filmId, $data);
     if ($response->successful()) {
         return redirect()->route('films')->with('success', 'Film mis à jour avec succès.');

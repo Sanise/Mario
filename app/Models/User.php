@@ -17,14 +17,15 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
+    protected $fillable = [ 
         'name',
         'email',
         'password',
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     *Liste des champs qui ne doivent PAS être exposés dans les réponses JSON
+     * ex : lorsqu'on utilise User::all() ou return response()->json($user)
      *
      * @var array<int, string>
      */

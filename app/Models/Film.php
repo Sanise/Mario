@@ -8,12 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Film extends Model
 {
     use HasFactory;
-    protected $table = 'film';
+    protected $table = 'film'; //nom de la table dans la bdd
 
     protected $primaryKey = 'film_id'; // Spécifie que la clé primaire est "film_id"
-    public $incrementing = true; // Si la clé est incrémentale (ce qui semble être le cas)
-    protected $keyType = 'int'; // Type de la clé primaire
+    public $incrementing = true; // clé auto-incrémenté
+    protected $keyType = 'int'; // Type de la clé primaire est entier
 
+    //champs que je peux remplir avec 'create()' ou '$request->all()'
     protected $fillable = [
         'title',
         'description',
@@ -29,15 +30,17 @@ class Film extends Model
         'last_update',
         'id_director',
     ];
+
+    //relations  film -> plusiseurs entrées dans le stock (inventory)
     public function inventories()
 {
     return $this->hasMany(Inventory::class, 'film_id', 'film_Id');
 }
-public function rentals()
+public function rentals() //un film peut être loué plusieurs fois
 {
     return $this->hasManyThrough(
-        Rental::class,
-        Inventory::class,
+        Rental::class, //modèle final que l'on veut atteindre : location
+        Inventory::class, //table intérmédiaire (pivot): inventaire
         'film_id', // Clé étrangère sur la table "inventory"
         'inventory_id', // Clé étrangère sur la table "rental"
         'filmId', // Clé locale sur la table "film"

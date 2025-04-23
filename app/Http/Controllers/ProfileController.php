@@ -12,12 +12,12 @@ use Illuminate\View\View;
 class ProfileController extends Controller
 {
     /**
-     * Display the user's profile form.
+     * Affiche le formulaire de profil de l'utilisateur connecté.
      */
     public function edit(Request $request): View
     {
         return view('profile.edit', [
-            'user' => $request->user(),
+            'user' => $request->user(), // Donne accès aux données de l'utilisateur connecté
         ]);
     }
 
@@ -26,35 +26,41 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+        // Remplit le modèle utilisateur avec les données validées
         $request->user()->fill($request->validated());
 
+         // Si l'email a changé, il faut revérifier l'adresse
         if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+            $request->user()->email_verified_at = null; // Réinitialise la date de vérification de l'email
         }
 
-        $request->user()->save();
+        $request->user()->save(); // Sauvegarde les modifications
 
+        // Redirige vers la page de profil avec un message de confirmation
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
     /**
-     * Delete the user's account.
+     * Supprime le compte utilisateur après validation du mot de passe.
      */
     public function destroy(Request $request): RedirectResponse
     {
+        // Valide que le mot de passe fourni est correct
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
         ]);
 
-        $user = $request->user();
+        $user = $request->user(); // Récupère l'utilisateur connecté
 
-        Auth::logout();
+        Auth::logout(); // Déconnecte l'utilisateur
 
-        $user->delete();
+        $user->delete(); // Supprime le compte de l'utilisateur
 
+        // Termine la session et régénère le token de session
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
+         // Redirige vers la page d'accueil
         return Redirect::to('/');
     }
 }

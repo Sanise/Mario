@@ -1,16 +1,18 @@
 <nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
-    <!-- Primary Navigation Menu -->
+     <!-- Menu principal de navigation -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden">
+
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
-                <!-- Logo -->
+                <!-- Logo cliquable redirigeant vers la page des films -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('films') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
                     </a>
                 </div>
 
-                <!-- Navigation Links -->
+                <!-- Liens de navigation visibles sur les écrans moyens et plus -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('films')" :active="request()->routeIs('films')">
                         {{ __('Gestion des Films') }}
@@ -32,23 +34,28 @@
                         {{ __('Stores') }}
                     </x-nav-link>
                 </div>
-                
-                
-            <!--    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('films.details')" :active="request()->routeIs('films.details')">
-                        {{ __('Détails des films') }}
-                    </x-nav-link>
-                </div> -->
-                
-            </div>
 
-            <!-- Settings Dropdown -->
+            <!--    {{-- DEBUG TEMPORAIRE --}}
+                @php
+                dump(route('inventory-create'));
+                @endphp-->
+
+                <!-- Lien vers la création de stock -->
+                <div class="hidden sm:-my-px sm:ml-10 sm:flex gap-x-4">
+                <x-nav-link :href="route('inventory-create')" :active="request()->routeIs('inventory-create')">
+
+                        {{ __('Ajout DVD Stock') }}
+                        </x-nav-link>
+                </div>
+                
+
+            <!-- Menu utilisateur (dropdown) -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name ?? 'Invité' }}</div>
                             <div class="ml-1">
+                                <!-- Icône de flèche -->
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                                 </svg>
@@ -57,19 +64,7 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
-
-                        <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <x-dropdown-link :href="route('logout')"
-                                onclick="event.preventDefault();
-                                         this.closest('form').submit();">
-                                {{ __('Log Out') }}
-                            </x-dropdown-link>
-                        </form>
+                        <!--  Espace pour ajouter les liens de déconnexion, profil, etc. Authentication -->
                     </x-slot>
                 </x-dropdown>
             </div>
@@ -89,43 +84,38 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('films')" :active="request()->routeIs('films')">
                 {{ __('Film') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('rentals.index')" :active="request()->routeIs('rentals.index')">
                 {{ __('Suivi des locations') }}
             </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('inventory')" :active="request()->routeIs('inventory')">
+                {{ __('Gestion des stocks') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('inventory-create')" :active="request()->routeIs('inventory-create')">
+                {{ __('Ajout DVD Stock') }}
+            </x-responsive-nav-link>
+
             <!--
             <x-responsive-nav-link :href="route('films.details')" :active="request()->routeIs('films.details')">
                 {{ __('Détails des films') }}
             </x-responsive-nav-link>
             -->
         </div>
+        </div>
 
-        <!-- Responsive Settings Options -->
+        <!-- Bloc pour les options du menu utilisateur (mobile) -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
             <div class="px-4">
-                <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                <!-- Informations utilisateur ici si besoin -->
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
-
+ <!-- Liens de déconnexion ou paramètres ici -->
                 <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <x-responsive-nav-link :href="route('logout')"
-                        onclick="event.preventDefault();
-                                 this.closest('form').submit();">
-                        {{ __('Log Out') }}
-                    </x-responsive-nav-link>
-                </form>
             </div>
         </div>
     </div>

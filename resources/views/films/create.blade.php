@@ -1,26 +1,31 @@
 <x-app-layout>
     <div class="max-w-7xl mx-auto p-6 lg:p-8">
+        <!-- Titre principal de la page -->
         <h1 class="text-3xl font-bold mb-6">Ajouter un nouveau film</h1>
 
+        <!-- Formulaire d'ajout d'un film -->
         <form action="{{ route('film.store') }}" method="POST">
-            @csrf
+            @csrf <!-- Protection CSRF contre les attaques -->
 
+            <!-- Champ : Titre du film -->
             <div class="mb-4">
                 <label for="title" class="block font-bold">Titre :</label>
                 <input type="text" name="title" id="title" required class="w-full border rounded p-2">
             </div>
 
+            <!-- Champ : Description du film -->
             <div class="mb-4">
                 <label for="description" class="block font-bold">Description :</label>
                 <textarea name="description" id="description" class="w-full border rounded p-2"></textarea>
             </div>
 
+            <!-- Champ : Année de sortie du film -->
             <div class="mb-4">
                 <label for="release_year" class="block font-bold">Année de sortie :</label>
                 <input type="number" name="release_year" id="release_year" required class="w-full border rounded p-2">
             </div>
 
-            <!-- Champ rating -->
+            <!-- Champ : Note/classification du film (rating) -->
             <div class="form-group mb-6 text-center">
                 <label for="rating" class="block text-lg font-medium text-gray-700">Note</label>
                 <select name="rating" id="rating" required
@@ -33,26 +38,28 @@
                 </select>
             </div>
 
-            <!-- Champ rentalDuration -->
+            <!--Champ : Durée de location (nombre de jours) rentalDuration -->
             <div class="form-group mb-6 text-center">
                 <label for="rental_duration" class="block text-lg font-medium text-gray-700">Durée de location</label>
                 <input type="number" name="rental_duration" id="rental_duration" value="{{ old('rental_duration') }}" required
                     class="mt-2 block w-full max-w-2xl px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 mx-auto">
             </div>
 
-            <!-- Champ length -->
+            <!-- Champ : Durée totale du film en minutes (length) -->
             <div class="form-group mb-6 text-center">
                 <label for="length" class="block text-lg font-medium text-gray-700">Durée (en minutes)</label>
                 <input type="number" name="length" id="length" value="{{ old('length') }}" required
                     class="mt-2 block w-full max-w-2xl px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 mx-auto">
             </div>
 
+            <!-- Champs cachés : valeurs par défaut pour les données techniques -->
             <input type="hidden" name="language_id" value="{{ old('language_id', 1) }}">
             <input type="hidden" name="original_language_id" value="{{ old('original_language_id', 1) }}">
             <input type="hidden" name="rental_rate" value="{{ old('rental_rate', 4.99) }}">
             <input type="hidden" name="replacement_cost" value="{{ old('replacement_cost', 19.99) }}">
             <input type="hidden" name="lastUpdate" id="lastUpdate">
 
+            <!-- Script pour insérer dynamiquement la date de mise à jour dans le champ hidden -->
             <script>
                 // Générer automatiquement la date actuelle au format YYYY-MM-DD HH:MM:SS pour la mise à jour
                 document.addEventListener("DOMContentLoaded", function () {
@@ -68,6 +75,7 @@
                 });
             </script>
 
+            <!-- Bouton de soumission du formulaire -->
             <button type="submit" class="bg-blue-500 text-black px-4 py-2 rounded hover:bg-blue-600">
                 Ajouter
             </button>
