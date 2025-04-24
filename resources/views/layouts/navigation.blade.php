@@ -29,11 +29,11 @@
                         {{ __('Suivi des locations') }}
                     </x-nav-link>
                 </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+             <!--   <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('stores.store')" :active="request()->routeIs('stores.store')">
                         {{ __('Stores') }}
                     </x-nav-link>
-                </div>
+                </div> -->
 
             <!--    {{-- DEBUG TEMPORAIRE --}}
                 @php
