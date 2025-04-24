@@ -25,10 +25,10 @@ Route::post('/login_staff', [LoginController::class, 'login'])->name('login_staf
 Route::get('/stores', [StoreController::class, 'index'])->name('stores.store');
 
 Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory');
-Route::get('/inventory/create', [InventoryController::class, 'create'])->name('inventory-create');
+Route::get('/inventory/create', [InventoryController::class, 'create'])->name(name: 'inventory-create');
 Route::get('/film/create', [FilmController::class, 'create'])->name('film.create');
 Route::post('/films', [FilmController::class, 'store'])->name('film.store');
-Route::post('/inventory/store-multiple', [InventoryController::class, 'storeMultiple'])->name('inventory.storeMultiple');
+Route::post('/inventory/store', [InventoryController::class, 'store'])->name('inventory.store');
 
 
 
