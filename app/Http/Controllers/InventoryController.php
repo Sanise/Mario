@@ -102,14 +102,14 @@ public function store(Request $request)
 
     }
 
-    public function destroy(Request $request):
-    { $envUrl = env('ENV_URL');
-        $envPort = env('ENV_PORT');
-        $endpointInventory ='/toad/inventory/add';
-        $lastUpdate = Carbon::now()->format('Y-m-d H:i:s');
-        $data = $request->all();
-        $data ['last_update'] = $lastUpdate;
+     /*public function destroy(Request $request):
+     { $envUrl = env('ENV_URL');
+         $envPort = env('ENV_PORT');
+         $endpointInventory ='/toad/inventory';
+         $lastUpdate = Carbon::now()->format('Y-m-d H:i:s');
+         $data = $request->all();
+         $data ['last_update'] = $lastUpdate;
 
-    }
+     }*/
 }
 
