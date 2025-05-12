@@ -61,37 +61,6 @@
 
                 
             </div>
-            <div class="mb-4">
-                            <label for="film_id" class="block text-sm font-medium">Choisir un film</label>
-                            <select name="film_id" id="film_id" required
-                                class="mt-2 block w-full max-w-2xl px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 mx-auto">
-                                <option value="">--Choisir un film--</option>
-                                @foreach ($films as $film)
-                                    <option value="{{ $film['filmId'] }}">{{ $film['title'] }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="store_id" class="block text-sm font-medium">ID du Magasin</label>
-                            <input type="number" name="store_id" id="store_id"
-                                class="mt-1 block w-full rounded-md border-gray-300"
-                                placeholder="ex: 1" required>
-                        </div>
-
-                        <input type="hidden" name="LastUpdate" id="LastUpdate" />
-
-                        <div class="flex justify-between items-center mt-6">
-                            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-black px-4 py-2 rounded">
-                                Supprimer du stock
-                            </button>
-                            <a href="{{ route('inventory') }}" class="text-black-500 hover:underline">
-                                Retour à l’inventaire
-                            </a>
-                        </div>
-                    </form>
-
-                </div>
         </div>
     </div>
 

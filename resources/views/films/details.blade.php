@@ -1,15 +1,15 @@
 <x-app-layout>
     <div class="max-w-7xl mx-auto p-6 lg:p-8">
 
-        <!-- Titre du film-->
-        <h1 class="text-3xl font-bold mb-6">{{ $film['title'] }}</h1>
+        <!-- Titre du film -->
+        <h1 class="text-3xl font-bold mb-6">{{ $film['title'] ?? 'Titre inconnu' }}</h1>
 
         <!-- Infos principales du film -->
         <div class="bg-white border border-gray-200 rounded-lg shadow-md p-6">
             <p><strong>Description :</strong> {{ $film['description'] ?? 'Non disponible' }}</p>
-            <p><strong>Année de sortie :</strong> {{ $film['release_year'] ?? 'Non disponible' }}</p>
-            <p><strong>Durée de location :</strong> {{ $film['rental_duration'] ?? 'Non disponible' }} jours</p>
-            <p><strong>Dernière mise à jour :</strong> {{ $film['last_update'] ?? 'Non disponible' }}</p>
+            <p><strong>Année de sortie :</strong> {{ $film['releaseYear'] ?? 'Non disponible' }}</p>
+            <p><strong>Durée de location :</strong> {{ $film['rentalDuration'] ?? 'Non disponible' }}</p>
+            <p><strong>Dernière mise à jour :</strong> {{ $film['lastUpdate'] ?? 'Non disponible' }}</p>
         </div>
 
         <div class="mt-4 flex space-x-4">

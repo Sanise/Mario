@@ -61,11 +61,8 @@ class FilmController extends Controller
     $envPort = env('ENV_PORT');
     $endpoint = '/toad/film/getById';
     $data = $request->all();
-
     //Appelle de l'API pour obtenir les infos du film
-    $response = Http::get($envUrl . $envPort . $endpoint, ['id' => $filmId, $data]);
-   
-
+    $response = Http::get($envUrl . $envPort . $endpoint, query: ['id' => $filmId, $data]);   
     if ($response->successful()) {
         $film = $response->json(); //récupère les infos d'un seul film 
         return view('films.details', ['film' => $film]); 
@@ -96,19 +93,39 @@ public function edit(string $filmId, Request $request): View|RedirectResponse
 }
 
 //Supprime un film
-public function destroy(string $filmId, Request $request): RedirectResponse
+public function destroy($filmId, Request $request)
 {
-    $envUrl = env('ENV_URL');
-    $envPort = env('ENV_PORT');
-    $endpoint = "/toad/film/delete/";
-    $data = $request->all();
-    $response = Http::delete($envUrl . $envPort . $endpoint.$filmId, $data);
+    $envUrl      = env('ENV_URL');
+    $envPort     = env('ENV_PORT');
 
-    if ($response->successful()) {
-        return redirect()->route('films')->with('success', 'Film supprimé avec succès.');
+    // Récupérer l’inventoryId à partir du filmId
+    $endpointAvail = '/toad/inventory/available/getById';
+    $responseAvail = Http::get(
+        "{$envUrl}{$envPort}{$endpointAvail}",
+        ['id' => $filmId]
+    );
+
+    if ($responseAvail->failed()) {
+        return redirect()
+            ->route('inventory.index')
+            ->with('error', "Impossible de récupérer l'inventoryId pour le film #{$filmId}.");
     }
 
-    return back()->withErrors(['message' => 'Impossible de supprimer le film.']);
+    $inventoryId = intval($responseAvail->body());
+
+    $endpointDel = '/toad/inventory/delete';
+    $urlDel      = "{$envUrl}{$envPort}{$endpointDel}/{$inventoryId}";
+    $responseDel = Http::delete($urlDel);
+
+    if ($responseDel->failed()) {
+        return redirect()
+            ->route('inventory.index')
+            ->with('error', "Erreur lors de la suppression de l’inventaire #{$inventoryId}.");
+    }
+
+    return redirect()
+        ->route('inventory.index')
+        ->with('success', $responseDel->body() ?: 'Inventaire supprimé avec succès.');
 }
 
 

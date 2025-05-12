@@ -7,7 +7,7 @@ use App\Http\Controllers\RentalController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\LoginController;
-
+use App\Models\Inventory;
 
 Route::get('/', function () {
     return view('login_staff');
@@ -30,6 +30,7 @@ Route::get('/film/create', [FilmController::class, 'create'])->name('film.create
 Route::post('/films', [FilmController::class, 'store'])->name('film.store');
 Route::post('/inventory/store', [InventoryController::class, 'store'])->name('inventory.store');
 
+Route::delete('/inventory/{filmId}', [InventoryController::class, 'destroy'])->name('inventory.destroy');
 
 
 Route::get('/films', [FilmController::class, 'index'])->name('films');

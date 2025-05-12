@@ -102,14 +102,25 @@ public function store(Request $request)
 
     }
 
-     /*public function destroy(Request $request):
-     { $envUrl = env('ENV_URL');
-         $envPort = env('ENV_PORT');
-         $endpointInventory ='/toad/inventory';
-         $lastUpdate = Carbon::now()->format('Y-m-d H:i:s');
-         $data = $request->all();
-         $data ['last_update'] = $lastUpdate;
+    public function destroy($filmId, Request $request)
+{
+    $envUrl = env('ENV_URL');
+    $envPort = env('ENV_PORT');
+    
+    $endpointInventory = "/toad/inventory/deleteDVD/$filmId";
+    $fullUrl = $envUrl . $envPort . $endpointInventory;
 
-     }*/
+    // Affiche l'URL pour vérification
+   // dd($fullUrl);
+
+    // Appel à l’API (sera temporairement bloqué par le dd)
+    $response = Http::delete($fullUrl);
+
+    if ($response->failed()) {
+        return redirect()->route('inventory')->with('failed', "La suppression du stock a échoué.");
+    }
+
+    return redirect()->route('inventory')->with('success', "Le stock a été supprimé avec succès.");
 }
-
+    
+    }
